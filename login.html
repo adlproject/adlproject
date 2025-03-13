@@ -834,12 +834,9 @@
       }
     </style>
  <script type="module">
-  // Import the necessary Firebase modules
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider, 
-           MicrosoftAuthProvider, OAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-  // Your Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDviZTEqaTKVu9UWdrqeaAbXnao9ai0elM",
     authDomain: "theadlproject.firebaseapp.com",
@@ -850,51 +847,23 @@
     measurementId: "G-WM1F13E8G8"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-
-  // Create provider instances
   const googleProvider = new GoogleAuthProvider();
-  const microsoftProvider = new MicrosoftAuthProvider();
-  const appleProvider = new OAuthProvider('apple.com');
 
-  // Function to handle social login
-  function handleSocialLogin(provider) {
-    signInWithPopup(auth, provider)
+  function handleGoogleLogin() {
+    signInWithPopup(auth, googleProvider)
       .then((result) => {
-        // Successful login
-        const user = result.user;
-        console.log('Logged in user:', user);
+        console.log("Login successful", result.user);
         window.location.href = 'dashboard.html';
       })
       .catch((error) => {
-        // Handle Errors here
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error('Login Error:', errorMessage);
-        alert('Login Failed: ' + errorMessage);
+        console.error("Login error", error);
+        alert("Login failed: " + error.message);
       });
   }
 
-  // Add event listeners to specific social login buttons
-  document.querySelector('.social-btn:nth-child(1)').addEventListener('click', () => handleSocialLogin(googleProvider));
-  document.querySelector('.social-btn:nth-child(2)').addEventListener('click', () => handleSocialLogin(microsoftProvider));
-  document.querySelector('.social-btn:nth-child(3)').addEventListener('click', () => handleSocialLogin(appleProvider));
-
-  // Phone authentication would require additional setup
-  document.querySelector('.social-btn:nth-child(4)').addEventListener('click', () => {
-    alert('Phone authentication is not yet implemented');
-  });
-
-  // Optional: Handle auth state changes
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      console.log('User is signed in:', user);
-    } else {
-      console.log('No user is signed in');
-    }
-  });
+  document.querySelector('.social-btn:nth-child(1)').addEventListener('click', handleGoogleLogin);
 </script>
   </head>
   <body>
