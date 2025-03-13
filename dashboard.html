@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
   <title>ADL - Islamic Knowledge Platform | Dashboard</title>
   <style>
     /* Reset and base styles */
@@ -15,23 +15,29 @@
     }
 
     :root {
-      /* Define global variables for consistent values */
+      /* Define global variables for consistent values based on ADL SOP */
       --primary-color: #a78bfa;
       --primary-light: #c4b5fd;
       --primary-gradient: linear-gradient(135deg, #a78bfa, #8b5cf6);
       --dark-bg: #0f0f1a;
       --darker-bg: #000;
       --text-color: #fff;
-      --sidebar-bg: rgba(59, 59, 79, 0.5);
-      --card-bg: rgba(59, 59, 79, 0.8);
       --input-bg: rgba(59, 59, 79, 0.8);
       --input-border: rgba(76, 76, 99, 0.3);
-      --button-primary: #4c53f0;
-      --button-secondary: rgba(59, 59, 79, 0.8);
+      --input-focus: #a78bfa;
+      --button-login: rgba(59, 59, 79, 0.8);
+      --button-login-hover: rgba(76, 76, 99, 0.9);
+      --button-signup: #4c53f0;
+      --button-signup-hover: #585ff3;
+      --base-font-size: 1rem;
+      --spacing-unit: 1rem;
+      --divider-color: rgba(255, 255, 255, 0.2);
     }
 
-    html, body {
+    html,
+    body {
       height: 100%;
+      width: 100%;
       overflow: hidden;
     }
 
@@ -39,560 +45,625 @@
       background-color: var(--dark-bg);
       color: var(--text-color);
       display: flex;
+      margin: 0;
       position: relative;
     }
-
-    /* Background pattern */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23a78bfa' fill-opacity='0.12'%3E%3Ctext x='20' y='35' font-family='Arial' font-size='24' text-anchor='middle'%3Eا%3C/text%3E%3Ctext x='50' y='35' font-family='Arial' font-size='24' text-anchor='middle'%3Eل%3C/text%3E%3Ctext x='20' y='75' font-family='Arial' font-size='24' text-anchor='middle'%3Eم%3C/text%3E%3Ctext x='50' y='75' font-family='Arial' font-size='24' text-anchor='middle'%3Eن%3C/text%3E%3C/g%3E%3C/svg%3E");
-      background-size: 100px 100px;
-      opacity: 0.5;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    /* Dashboard Layout */
-    .dashboard-container {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      grid-template-rows: 100vh;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Sidebar */
+    
+    /* Sidebar styles */
     .sidebar {
-      background-color: var(--sidebar-bg);
-      backdrop-filter: blur(10px);
+      width: 20%;
+      height: 100vh;
+      background-color: var(--darker-bg);
+      position: fixed;
+      left: 0;
+      top: 0;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, width 0.3s ease;
+      z-index: 100;
+      overflow-y: auto;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
-      padding: 1.5rem 1rem;
-      border-right: 1px solid rgba(255,255,255,0.1);
-      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
     }
-
+    
+    /* Sidebar closed state */
+    .sidebar.closed {
+      width: 0;
+      transform: translateX(-100%);
+    }
+    
+    /* Logo styles */
     .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 1px;
       display: flex;
       align-items: center;
-      margin-bottom: 2rem;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--text-color);
+      justify-content: center;
+      position: relative;
       text-decoration: none;
+      color: var(--text-color);
     }
-
+    
+    .logo-text {
+      display: inline-block;
+    }
+    
+    /* Crescent moon icon */
     .crescent-moon {
       position: relative;
       display: inline-block;
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 1.8rem;
+      height: 1.8rem;
       margin-left: 0.25rem;
       animation: blink 1.5s infinite;
     }
-
+    
     .crescent-moon::before {
       content: "";
       position: absolute;
-      width: 1.3rem;
-      height: 1.3rem;
+      width: 1.6rem;
+      height: 1.6rem;
       border-radius: 50%;
       box-shadow: inset 0.2rem 0.2rem 0 0 var(--primary-color);
       transform: rotate(-85deg);
       top: 0.1rem;
       left: 0.1rem;
-      filter: drop-shadow(0 0 4px rgba(167, 139, 250, 0.8));
+      filter: drop-shadow(0 0 6px rgba(167, 139, 250, 0.8));
     }
-
+    
     @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
     }
-
-    /* Sidebar Navigation */
-    .nav-menu {
+    
+    /* Logo container styles */
+    .logo-container {
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 90;
       display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      flex-grow: 1;
+      justify-content: center;
+      align-items: center;
+      transition: left 0.3s ease;
     }
-
-    .nav-item {
+    
+    /* Top-right controls for chat icon and profile picture */
+    .top-right-controls {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
       display: flex;
       align-items: center;
-      padding: 0.75rem 1rem;
-      color: var(--text-color);
-      text-decoration: none;
-      border-radius: 0.375rem;
-      transition: all 0.3s ease;
-      position: relative;
+      gap: 0.5rem;
+      z-index: 90;
+    }
+    
+    .chat-initiate {
+      background: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .chat-initiate:hover {
+      transform: scale(1.1);
+    }
+    
+    .chat-initiate:active {
+      transform: scale(0.95);
+    }
+    
+    /* Profile picture container (now within top-right-controls) */
+    .profile-container {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--input-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
+      border: 2px solid var(--primary-color);
+      cursor: pointer;
+      transition: transform 0.3s ease;
     }
-
-    .nav-item:hover, .nav-item.active {
-      background-color: var(--primary-color);
-      color: var(--darker-bg);
+    
+    .profile-container:hover {
+      transform: scale(1.1);
     }
-
-    .nav-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
+    
+    .profile-container img {
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.7s ease;
+      object-fit: cover;
     }
-
-    .nav-item:hover::before {
-      left: 100%;
+    
+    .profile-picture-placeholder {
+      color: var(--primary-light);
+      font-weight: bold;
+      font-size: 1.2rem;
     }
-
-    .nav-icon {
-      margin-right: 0.75rem;
-      width: 1.25rem;
-      height: 1.25rem;
+    
+    /* Content area to offset for sidebar */
+    .content-area {
+      width: 80%;
+      margin-left: 20%;
+      min-height: 100vh;
+      position: relative;
+      transition: width 0.3s ease, margin-left 0.3s ease;
+      background-color: var(--dark-bg);
+      padding: 1rem;
+      overflow-y: auto;
     }
-
-    /* Main Content Area */
-    .main-content {
-      display: grid;
-      grid-template-rows: auto 1fr;
-      overflow: hidden;
+    
+    /* Sidebar closed content area styles */
+    .sidebar.closed ~ .content-area {
+      width: 100%;
+      margin-left: 0;
     }
-
-    /* Header */
+    
+    /* Sidebar menu styles */
+    .sidebar-menu {
+      width: 100%;
+      padding: 1rem;
+    }
+    
+    .sidebar-menu-item {
+      color: var(--text-color);
+      text-decoration: none;
+      display: block;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.375rem;
+      transition: background-color 0.3s ease;
+    }
+    
+    .sidebar-menu-item:hover {
+      background-color: rgba(167, 139, 250, 0.2);
+    }
+    
+    .sidebar-menu-item.active {
+      background-color: var(--button-signup);
+      color: var(--text-color);
+    }
+    
+    /* Toggle button styles */
+    .sidebar-toggle {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 110;
+      color: var(--text-color);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      background: none;
+      transition: all 0.3s ease;
+    }
+    
+    /* Hamburger menu icon styling */
+    .plus-minus-icon {
+      position: relative;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .plus-minus-icon span {
+      position: absolute;
+      width: 22px;
+      height: 2px;
+      background-color: var(--primary-color);
+      border-radius: 4px;
+      transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+      box-shadow: 0 0 5px rgba(167, 139, 250, 0.5);
+    }
+    
+    /* Three lines of the hamburger menu */
+    .plus-minus-icon span:nth-child(1) {
+      transform: translateY(-7px);
+    }
+    
+    .plus-minus-icon span:nth-child(3) {
+      transform: translateY(7px);
+    }
+    
+    /* Animation for hamburger to X transition when sidebar is open */
+    .sidebar:not(.closed) ~ button.sidebar-toggle .plus-minus-icon span:nth-child(1) {
+      transform: rotate(45deg);
+    }
+    
+    .sidebar:not(.closed) ~ button.sidebar-toggle .plus-minus-icon span:nth-child(2) {
+      opacity: 0;
+      transform: scale(0);
+    }
+    
+    .sidebar:not(.closed) ~ button.sidebar-toggle .plus-minus-icon span:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+    
+    /* Hover effect */
+    .sidebar-toggle:hover .plus-minus-icon span {
+      background-color: var(--primary-light);
+      box-shadow: 0 0 8px rgba(167, 139, 250, 0.8);
+    }
+    
+    .sidebar-toggle:hover {
+      transform: scale(1.1);
+    }
+    
+    .sidebar-toggle:active {
+      transform: scale(0.95);
+    }
+    
+    /* Dashboard content styles */
     .dashboard-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.5rem;
-      background-color: rgba(0,0,0,0.2);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background-color: rgba(59, 59, 79, 0.3);
+      border-radius: 0.5rem;
     }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
+    
+    .dashboard-title h1 {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      font-weight: 600;
     }
-
-    .profile-pic {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 50%;
-      background-color: var(--primary-color);
+    
+    .dashboard-greeting {
+      font-size: 1.2rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+    
+    .stat-card {
+      background-color: rgba(59, 59, 79, 0.3);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      background-color: rgba(59, 59, 79, 0.5);
+    }
+    
+    .stat-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
       font-weight: bold;
+      color: var(--text-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      color: var(--primary-light);
+      opacity: 0.8;
+    }
+    
+    /* Responsive design media queries */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 25%;
+      }
+      
+      .content-area {
+        width: 75%;
+        margin-left: 25%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 250px;
+      }
+      
+      .sidebar.closed {
+        width: 0;
+      }
+      
+      .content-area {
+        width: calc(100% - 250px);
+        margin-left: 250px;
+      }
+      
+      .sidebar.closed ~ .content-area {
+        width: 100%;
+        margin-left: 0;
+      }
+      
+      .logo-container {
+        left: calc(50% + 125px);
+      }
+      
+      .sidebar.closed ~ .logo-container {
+        left: 50%;
+      }
+    }
+    
+    /* Safe area insets for notched phones */
+    @supports (padding: max(0px)) {
+      body {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+        padding-top: max(0px, env(safe-area-inset-top));
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+      }
     }
 
-    .search-bar {
+    /* --------------------------------------------
+       NEW STYLES for the chat message box (like screenshot)
+       -------------------------------------------- */
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 70vh; /* Adjust as needed */
+      border: 1px solid var(--input-border);
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    /* Messages area at the top */
+    #chatMessages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      background-color: rgba(59, 59, 79, 0.3);
+    }
+
+    /* Chat input area at the bottom, pill-shaped container */
+    .chat-input-container {
       display: flex;
       align-items: center;
-      background-color: var(--input-bg);
-      border-radius: 0.375rem;
+      background-color: #1f1f2e;
+      border-radius: 9999px;
       padding: 0.5rem 1rem;
-      flex-grow: 1;
-      max-width: 400px;
+      margin: 0.5rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
     }
 
-    .search-input {
-      background: transparent;
+    /* Plus button on the left */
+    .chat-input-container button.add-btn {
+      background: none;
       border: none;
-      color: var(--text-color);
-      width: 100%;
-      margin-left: 0.5rem;
-    }
-
-    .search-input:focus {
+      color: var(--primary-light);
+      font-size: 1.25rem;
+      margin-right: 0.75rem;
+      cursor: pointer;
       outline: none;
     }
 
-    /* Dashboard Content Grid */
-    .dashboard-content {
-      display: grid;
-      grid-template-columns: 3fr 1fr;
-      gap: 1.5rem;
-      padding: 1.5rem;
-      overflow: hidden;
+    /* Text input in the middle */
+    .chat-input-container input[type="text"] {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
     }
 
-    /* Left Section - Main Analytics */
-    .main-analytics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: auto 1fr;
-      gap: 1.5rem;
-      overflow: hidden;
+    .chat-input-container input[type="text"]::placeholder {
+      color: rgba(255, 255, 255, 0.4);
     }
 
-    .quick-stats {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .dashboard-card {
-      background-color: var(--card-bg);
-      border-radius: 0.5rem;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      transition: transform 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .dashboard-card:hover {
-      transform: scale(1.03);
-    }
-
-    .dashboard-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      transition: left 0.7s ease;
-    }
-
-    .dashboard-card:hover::before {
-      left: 100%;
-    }
-
-    .card-icon {
-      width: 2.5rem;
-      height: 2.5rem;
-      background-color: var(--primary-color);
-      border-radius: 0.375rem;
+    /* Voice (microphone) button on the right */
+    .chat-input-container button.voice-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      color: var(--primary-light);
+      margin-left: 0.75rem;
+      font-size: 1.25rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--darker-bg);
     }
 
-    .card-title {
-      font-weight: 600;
-      font-size: 1rem;
-      opacity: 0.7;
-    }
-
-    .card-value {
-      font-size: 1.5rem;
-      font-weight: bold;
+    /* Hover/active styles for plus/mic icons */
+    .chat-input-container button.add-btn:hover,
+    .chat-input-container button.voice-btn:hover {
       color: var(--primary-color);
     }
-
-    /* Learning Progress Section */
-    .learning-progress {
-      grid-column: 1 / 3;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      overflow: hidden;
-    }
-
-    .progress-card {
-      background-color: var(--card-bg);
-      border-radius: 0.5rem;
-      padding: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .progress-details {
-      flex-grow: 1;
-    }
-
-    .progress-bar {
-      height: 0.5rem;
-      background-color: rgba(255,255,255,0.1);
-      border-radius: 0.25rem;
-      overflow: hidden;
-      margin-top: 0.5rem;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background-color: var(--primary-color);
-    }
-
-    /* Right Section - Additional Information */
-    .right-sidebar {
-      display: grid;
-      grid-template-rows: auto 1fr;
-      gap: 1.5rem;
-    }
-
-    .upcoming-events {
-      background-color: var(--card-bg);
-      border-radius: 0.5rem;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .event-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.75rem;
-      background-color: rgba(255,255,255,0.05);
-      border-radius: 0.375rem;
-    }
-
-    .event-date {
-      background-color: var(--primary-color);
-      color: var(--darker-bg);
-      padding: 0.5rem;
-      border-radius: 0.25rem;
-      min-width: 3rem;
-      text-align: center;
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 1024px) {
-      .dashboard-container {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: -250px;
-        height: 100%;
-        z-index: 1000;
-        transition: left 0.3s ease;
-      }
-
-      .sidebar.open {
-        left: 0;
-      }
-
-      .dashboard-content {
-        grid-template-columns: 1fr;
-      }
-
-      .main-analytics {
-        grid-template-columns: 1fr;
-      }
-
-      .quick-stats {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Accessibility Styles */
-    :focus-visible {
-      outline: 2px solid var(--primary-color);
-      outline-offset: 2px;
+    .chat-input-container button.add-btn:active,
+    .chat-input-container button.voice-btn:active {
+      transform: scale(0.95);
     }
   </style>
 </head>
 <body>
-  <div class="dashboard-container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <a href="index.html" class="logo">
-        ADL<span class="crescent-moon"></span>
-      </a>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-menu">
+      <!-- Chat history will be appended here -->
+    </div>
+  </div>
+  
+  <!-- Toggle button -->
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+    <div class="plus-minus-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
 
-      <nav class="nav-menu">
-        <a href="#" class="nav-item active">
-          <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-          </svg>
-          Dashboard
-        </a>
-        <a href="#" class="nav-item">
-          <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-          </svg>
-          Courses
-        </a>
-        <a href="#" class="nav-item">
-          <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-          Community
-        </a>
-        <a href="#" class="nav-item">
-          <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-          Resources
-        </a>
-        <a href="#" class="nav-item">
-          <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          Progress
-        </a>
-      </nav>
-    </aside>
+  <!-- Top-right controls: Pencil icon (to start chat) and Profile picture -->
+  <div class="top-right-controls">
+    <button class="chat-initiate" id="chatInitiate" aria-label="Start Chat">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h9"></path>
+        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+      </svg>
+    </button>
+    <div class="profile-container" id="profilePicture">
+      <!-- Profile picture will be dynamically loaded here -->
+    </div>
+  </div>
 
-    <!-- Main Content -->
-    <main class="main-content">
-      <!-- Dashboard Header -->
-      <header class="dashboard-header">
-        <div class="search-bar">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" placeholder="Search courses, resources..." class="search-input">
-        </div>
+  <!-- Logo container -->
+  <div class="logo-container">
+    <a href="index.html" class="logo">
+      <span class="logo-text">ADL</span><span class="crescent-moon"></span>
+    </a>
+  </div>
 
-        <div class="user-profile">
-          <div class="profile-pic">AA</div>
-          <div class="user-details">
-            <div>Abdullah Alawi</div>
-            <div style="font-size: 0.8rem; opacity: 0.7;">Student</div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Dashboard Content -->
-      <div class="dashboard-content">
-        <!-- Main Analytics Section -->
-        <div class="main-analytics">
-          <!-- Quick Stats -->
-          <div class="quick-stats">
-            <div class="dashboard-card">
-              <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              </div>
-              <div class="card-title">Active Courses</div>
-              <div class="card-value">3</div>
-            </div>
-
-            <div class="dashboard-card">
-              <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <div class="card-title">Completed Courses</div>
-              <div class="card-value">7</div>
-            </div>
-
-            <div class="dashboard-card">
-              <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-              <div class="card-title">Community Connects</div>
-              <div class="card-value">42</div>
-            </div>
-          </div>
-
-          <!-- Learning Progress Section -->
-          <div class="learning-progress">
-            <h2 style="margin-bottom: 1rem;">Your Learning Progress</h2>
-            
-            <div class="progress-card">
-              <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              </div>
-              <div class="progress-details">
-                <h3>Quran Tafsir: Surah Al-Baqarah</h3>
-                <div class="progress-bar">
-                  <div class="progress-bar-fill" style="width: 65%;"></div>
-                </div>
-              </div>
-              <div class="card-value">65%</div>
-            </div>
-
-            <div class="progress-card">
-              <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              </div>
-              <div class="progress-details">
-                <h3>Islamic History: The Golden Age</h3>
-                <div class="progress-bar">
-                  <div class="progress-bar-fill" style="width: 45%;"></div>
-                </div>
-              </div>
-              <div class="card-value">45%</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Sidebar -->
-        <div class="right-sidebar">
-          <div class="upcoming-events">
-            <h2>Upcoming Events</h2>
-            <div class="event-item">
-              <div class="event-date">
-                <div>15</div>
-                <div style="font-size: 0.7rem;">Mar</div>
-              </div>
-              <div class="event-details">
-                <h3>Tafsir Night Class</h3>
-                <p style="font-size: 0.8rem; opacity: 0.7;">Online Lecture on Surah Al-Kahf</p>
-              </div>
-            </div>
-            <div class="event-item">
-              <div class="event-date">
-                <div>22</div>
-                <div style="font-size: 0.7rem;">Mar</div>
-              </div>
-              <div class="event-details">
-                <h3>Community Halaqa</h3>
-                <p style="font-size: 0.8rem; opacity: 0.7;">Weekly Study Circle</p>
-              </div>
-            </div>
-            <div class="event-item">
-              <div class="event-date">
-                <div>30</div>
-                <div style="font-size: 0.7rem;">Mar</div>
-              </div>
-              <div class="event-details">
-                <h3>Ramadan Preparation Workshop</h3>
-                <p style="font-size: 0.8rem; opacity: 0.7;">Spiritual Readiness Seminar</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+  <!-- Main content area -->
+  <div class="content-area" id="contentArea">
+    <!-- Content will be dynamically replaced when chat is initiated -->
   </div>
 
   <script>
-    // Toggle mobile sidebar
-    function toggleSidebar() {
-      const sidebar = document.querySelector('.sidebar');
-      sidebar.classList.toggle('open');
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      const sidebar = document.getElementById('sidebar');
+      const contentArea = document.getElementById('contentArea');
+      
+      if (sidebarToggle && sidebar && contentArea) {
+        sidebarToggle.addEventListener('click', function() {
+          // Toggle sidebar closed class
+          sidebar.classList.toggle('closed');
+        });
+      }
+      
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener('click', function(event) {
+        const isClickInsideSidebar = sidebar.contains(event.target);
+        const isClickOnToggle = sidebarToggle.contains(event.target);
+        
+        if (!isClickInsideSidebar && !isClickOnToggle && window.innerWidth <= 768 && !sidebar.classList.contains('closed')) {
+          sidebar.classList.add('closed');
+        }
+      });
 
-    // Search functionality (placeholder)
-    const searchInput = document.querySelector('.search-input');
-    searchInput.addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      console.log('Searching for:', searchTerm);
-      // Implement actual search logic here
+      // Profile picture handling
+      const profilePictureContainer = document.getElementById('profilePicture');
+      
+      // Function to load profile picture
+      function loadProfilePicture() {
+        // In a real application, you would fetch this from your authentication system
+        const userProfile = {
+          name: 'Abdul',
+          imageUrl: null // Replace with actual image URL when available
+        };
+
+        if (userProfile.imageUrl) {
+          const img = document.createElement('img');
+          img.src = userProfile.imageUrl;
+          img.alt = `${userProfile.name}'s profile picture`;
+          profilePictureContainer.innerHTML = '';
+          profilePictureContainer.appendChild(img);
+        } else {
+          // Display initials if no image is available
+          const initials = userProfile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+          profilePictureContainer.innerHTML = `<span class="profile-picture-placeholder">${initials}</span>`;
+        }
+      }
+      loadProfilePicture();
+
+      // Chat initiation handling
+      const chatInitiateButton = document.getElementById('chatInitiate');
+      chatInitiateButton.addEventListener('click', function() {
+        // Load chat interface in the content area
+        contentArea.innerHTML = `
+          <div class="chat-container" id="chatContainer">
+            <div id="chatMessages"></div>
+            <div class="chat-input-container">
+              <button class="add-btn" aria-label="Add options">+</button>
+              <input type="text" id="chatInput" placeholder="Ask anything..." />
+              <button class="voice-btn" aria-label="Voice input">
+                <svg width="20" height="20" viewBox="0 0 448 512" fill="currentColor">
+                  <path d="M400 224c0 79.4-64.6 144-144 144s-144-64.6-144-144V96c0-53 
+                           43-96 96-96s96 43 96 96v128c0 17.7 14.3 32 32 32s32-14.3 
+                           32-32V96C368 43 325 0 272 0S176 43 176 96v128c0 52.9 43 
+                           96 96 96s96-43.1 96-96c0-17.7 14.3-32 32-32s32 14.3 
+                           32 32zM80 224c0-8.8-7.2-16-16-16s-16 7.2-16 16c0 
+                           88.2 67.8 161.4 153.6 175.3V448H160c-17.7 0-32 
+                           14.3-32 32s14.3 32 32 32h128c17.7 0 32-14.3 
+                           32-32s-14.3-32-32-32H246.4v-48.7C332.2 385.4 
+                           400 312.2 400 224c0-8.8-7.2-16-16-16s-16 
+                           7.2-16 16c0 79.4-64.6 144-144 144s-144-64.6-144-144z">
+                  </path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+
+        // Grab references in the newly inserted HTML
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        
+        // Send message when user presses Enter
+        chatInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            sendMessage();
+          }
+        });
+        
+        // Helper to send message
+        function sendMessage() {
+          const message = chatInput.value.trim();
+          if (message) {
+            // Display the message in the chat interface
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Append message to sidebar chat history
+            const sidebarMenu = document.querySelector('.sidebar-menu');
+            const chatHistoryItem = document.createElement('a');
+            chatHistoryItem.href = "#";
+            chatHistoryItem.classList.add('sidebar-menu-item');
+            chatHistoryItem.textContent = message;
+            sidebarMenu.appendChild(chatHistoryItem);
+            
+            chatInput.value = '';
+          }
+        }
+      });
     });
   </script>
 </body>
