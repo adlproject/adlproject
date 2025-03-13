@@ -534,20 +534,28 @@
   
   .right-section {
     min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 0;
   }
-      
-      .content-container {
-        width: 90%;
-        margin: 0 auto;
-      }
-      
-      .content-wrapper {
-        min-height: 0;
-      }
-      
-      .get-started {
-        margin-top: calc(var(--spacing-unit));
-      }
+  
+  .content-container {
+    width: 90%;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .content-wrapper {
+    min-height: 0;
+  }
+  
+  .get-started {
+    margin-top: 0;
+  }
       
       .buttons {
         flex-direction: row !important;
