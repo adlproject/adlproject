@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>ADL - Islamic Knowledge Platform | Privacy Policy</title>
+    <style>
+      /* Reset and base styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      }
+
+      :root {
+        /* Define global variables for consistent values */
+        --primary-color: #a78bfa;
+        --primary-light: #c4b5fd;
+        --primary-gradient: linear-gradient(135deg, #a78bfa, #8b5cf6);
+        --dark-bg: #0f0f1a;
+        --darker-bg: #000;
+        --text-color: #fff;
+        --input-bg: rgba(59, 59, 79, 0.8);
+        --input-border: rgba(76, 76, 99, 0.3);
+        --input-focus: #a78bfa;
+        --button-back: rgba(59, 59, 79, 0.8);
+        --button-back-hover: rgba(76, 76, 99, 0.9);
+        --base-font-size: 1rem;
+        --spacing-unit: 1rem;
+        --divider-color: rgba(255, 255, 255, 0.2);
+      }
+
+      html,
+      body {
+        height: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        background-color: var(--dark-bg);
+        color: var(--text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.5rem;
+        margin: 0;
+        position: relative;
+        min-height: 100%;
+      }
+
+      /* Main container */
+      .policy-container {
+        width: 100%;
+        max-width: 800px;
+        max-height: calc(100vh - 1rem);
+        overflow-y: auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        margin: auto;
+      }
+
+      /* Background pattern */
+      .policy-container::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23a78bfa' fill-opacity='0.12'%3E%3Ctext x='20' y='35' font-family='Arial' font-size='24' text-anchor='middle'%3Eا%3C/text%3E%3Ctext x='50' y='35' font-family='Arial' font-size='24' text-anchor='middle'%3Eل%3C/text%3E%3Ctext x='20' y='75' font-family='Arial' font-size='24' text-anchor='middle'%3Eم%3C/text%3E%3Ctext x='50' y='75' font-family='Arial' font-size='24' text-anchor='middle'%3Eن%3C/text%3E%3C/g%3E%3C/svg%3E");
+        background-size: 100px 100px;
+        opacity: 0.5;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* Logo styles */
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 100%;
+      }
+
+      .logo-text {
+        display: inline-block;
+      }
+
+      /* Modified crescent moon icon - matching the landing page style */
+      .crescent-moon {
+        position: relative;
+        display: inline-block;
+        width: 1.8rem;
+        height: 1.8rem;
+        margin-left: 0.25rem;
+        animation: blink 1.5s infinite;
+      }
+
+      .crescent-moon::before {
+        content: "";
+        position: absolute;
+        width: 1.6rem;
+        height: 1.6rem;
+        border-radius: 50%;
+        box-shadow: inset 0.2rem 0.2rem 0 0 var(--primary-color);
+        transform: rotate(-85deg);
+        top: 0.1rem;
+        left: 0.1rem;
+        filter: drop-shadow(0 0 6px rgba(167, 139, 250, 0.8));
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* Header styles */
+      h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        text-align: left;
+      }
+
+      .last-updated {
+        font-size: 0.9rem;
+        color: var(--primary-light);
+        opacity: 0.8;
+        text-align: left;
+        margin-bottom: 2rem;
+      }
+
+      /* Content styles */
+      .policy-content {
+        width: 100%;
+        line-height: 1.6;
+      }
+
+      .policy-text {
+        margin-bottom: 2rem;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+      
+      .policy-text p {
+        margin-bottom: 1.5rem;
+      }
+
+      /* Back button */
+      .back-button {
+        display: block;
+        padding: 0.75rem 1.5rem;
+        margin: 2rem auto 1rem;
+        border: none;
+        border-radius: 0.375rem;
+        background-color: var(--button-back);
+        color: white;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        width: fit-content;
+        text-align: center;
+      }
+
+      .back-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.7s ease;
+      }
+
+      .back-button:hover {
+        background-color: var(--button-back-hover);
+      }
+
+      .back-button:hover::before {
+        left: 100%;
+      }
+
+      /* Footer */
+      .footer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid white;
+        font-size: 0.75rem;
+      }
+
+      .footer a {
+        color: white;
+        text-decoration: none;
+        margin: 0 0.75rem;
+        padding: 0.25rem;
+        transition: all 0.2s ease;
+        opacity: 1;
+        position: relative;
+        -webkit-tap-highlight-color: transparent;
+        display: inline-block;
+      }
+
+      .footer a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        background-color: var(--primary-color);
+        transition: width 0.3s ease;
+      }
+
+      .footer a:hover {
+        text-decoration: none;
+        opacity: 1;
+        color: var(--primary-color);
+      }
+
+      .footer a:hover::after {
+        width: 100%;
+      }
+
+      /* Accessibility focus styles */
+      :focus-visible {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+
+      /* Media queries for responsive design */
+
+      /* Extra large screens */
+      @media (min-width: 1200px) {
+        .policy-container {
+          max-width: 900px;
+          padding: 2rem;
+        }
+      }
+
+      /* Large screens */
+      @media (max-width: 1024px) {
+        .policy-container {
+          max-width: 800px;
+          padding: 1.75rem;
+        }
+      }
+
+      /* Medium screens */
+      @media (max-width: 768px) {
+        .policy-container {
+          max-width: 700px;
+          padding: 1.5rem;
+        }
+        
+        h1 {
+          font-size: 1.4rem;
+        }
+      }
+
+      /* Small tablets and large phones */
+      @media (max-width: 640px) {
+        .policy-container {
+          max-width: 100%;
+          padding: 1.35rem;
+        }
+
+        .logo {
+          font-size: 1.7rem;
+        }
+
+        .crescent-moon {
+          width: 1.7rem;
+          height: 1.7rem;
+        }
+
+        .crescent-moon::before {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+
+        h1 {
+          font-size: 1.4rem;
+        }
+      }
+
+      /* Small phones */
+      @media (max-width: 480px) {
+        .policy-container {
+          padding: 1.25rem;
+        }
+
+        .logo {
+          font-size: 1.6rem;
+          margin-bottom: 1.35rem;
+        }
+
+        .crescent-moon {
+          width: 1.6rem;
+          height: 1.6rem;
+        }
+
+        .crescent-moon::before {
+          width: 1.4rem;
+          height: 1.4rem;
+        }
+
+        h1 {
+          font-size: 1.35rem;
+        }
+
+        .footer {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 0.5rem;
+        }
+      }
+
+      /* Very small phones */
+      @media (max-width: 380px) {
+        .policy-container {
+          padding: 1.1rem;
+        }
+
+        .logo {
+          font-size: 1.5rem;
+          margin-bottom: 1.2rem;
+        }
+
+        .crescent-moon {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+
+        .crescent-moon::before {
+          width: 1.3rem;
+          height: 1.3rem;
+        }
+
+        h1 {
+          font-size: 1.3rem;
+        }
+
+        .footer {
+          margin-top: 0.8rem;
+          padding-top: 0.8rem;
+        }
+      }
+
+      /* iPhone SE and very small phones */
+      @media (max-width: 320px) {
+        .policy-container {
+          padding: 1rem;
+        }
+
+        .logo {
+          font-size: 1.4rem;
+          margin-bottom: 1rem;
+        }
+
+        .crescent-moon {
+          width: 1.4rem;
+          height: 1.4rem;
+        }
+
+        .crescent-moon::before {
+          width: 1.2rem;
+          height: 1.2rem;
+        }
+
+        h1 {
+          font-size: 1.2rem;
+        }
+
+        .footer a {
+          margin: 0 0.5rem;
+        }
+      }
+
+      /* High pixel density screens */
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .policy-container::before {
+          background-size: 50px 50px;
+        }
+      }
+
+      /* Safe area insets for notched phones */
+      @supports (padding: max(0px)) {
+        body {
+          padding-left: max(0.5rem, env(safe-area-inset-left));
+          padding-right: max(0.5rem, env(safe-area-inset-right));
+          padding-top: max(0.5rem, env(safe-area-inset-top));
+          padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="policy-container">
+      <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">
+        <span class="logo-text">ADL</span><span class="crescent-moon"></span>
+      </a>
+
+      <div style="text-align: left; width: 100%;">
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last Updated: March 13, 2025</p>
+      </div>
+
+      <div class="policy-content">
+        <div class="policy-text">
+          <p>Welcome to ADL - Islamic Knowledge Platform. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>
+          
+          <p>ADL is an Islamic Knowledge Platform dedicated to providing authentic Islamic knowledge from the Quran, Hadith, and Seerah. Personal data, or personal information, means any information about an individual from which that person can be identified. It does not include data where the identity has been removed (anonymous data).</p>
+          
+          <p>We may collect, use, store and transfer different kinds of personal data about you which includes Identity Data (first name, last name, username), Contact Data (email address, telephone numbers), Technical Data (IP address, login data, browser type, time zone setting, location), Usage Data (how you use our website), and Profile Data (username, password, interests, preferences). We do not collect any Special Categories of Personal Data about you (including details about your religious or philosophical beliefs).</p>
+          
+          <p>We use different methods to collect data from and about you including direct interactions when you create an account, subscribe to our service, or give us feedback, and through automated technologies as you interact with our website. We will only use your personal data when the law allows us to, most commonly to perform a contract with you, where necessary for our legitimate interests, or to comply with a legal obligation.</p>
+          
+          <p>We may share your personal data with service providers, professional advisers, and regulators. We require all third parties to respect the security of your personal data and treat it in accordance with the law. We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used, or accessed in an unauthorized way.</p>
+          
+          <p>We will only retain your personal data for as long as necessary to fulfill the purposes we collected it for. Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure, restriction of processing, data portability, and to withdraw consent.</p>
+          
+          <p>We may update our privacy policy from time to time and will notify you of any changes by posting the new policy on this page. If you have any questions about this privacy policy, please contact us at hello@adlproject.org.</p>
+        </div>
+
+        <a href="index.html" class="back-button">Back to Home</a>
+      </div>
+
+      <div class="footer">
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <span class="footer-divider">|</span>
+          <a href="privacypolicy.html">Privacy Policy</a>
+          <span class="footer-divider">|</span>
+          <a href="terms.html">Terms of Use</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
