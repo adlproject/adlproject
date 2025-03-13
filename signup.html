@@ -39,7 +39,8 @@
 
       html,
       body {
-        overflow: hidden;
+        height: 100%;
+        overflow-x: hidden;
       }
 
       body {
@@ -58,8 +59,10 @@
       .signup-container {
   width: 100%;
   max-width: 450px;
-  max-height: calc(100vh - 1rem);
-  overflow-y: auto;
+  /* Removed max-height and added min-height instead */
+  min-height: calc(100vh - 1rem);
+  /* Changed from auto to visible */
+  overflow-y: visible;
   padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -893,16 +896,19 @@
       /* Desktop and Laptop Specific Adjustments */
       @media (min-width: 769px) {
   body {
-    overflow: hidden;
+    /* Change from hidden to auto */
+    overflow: auto;
   }
 
   /* Container adjustments */
   .signup-container {
-    max-height: calc(100vh - 1rem);
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: visible;
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
+    overflow: visible;
   }
+  
   /* Other rules remain the same... */
 }
         /* More compact spacing for larger screens */
