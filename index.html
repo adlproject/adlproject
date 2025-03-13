@@ -173,16 +173,18 @@
     }
     
     .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      position: absolute;
-      top: calc(var(--spacing-unit) * 1.25);
-      left: calc(var(--spacing-unit) * 1.25);
-      z-index: 10;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-    }
+      .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: absolute;
+  top: calc(var(--spacing-unit) * 1.25);
+  left: calc(var(--spacing-unit) * 1.25);
+  z-index: 10;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
     
     /* Modified crescent moon icon */
     .crescent-moon {
@@ -193,6 +195,7 @@
   margin-left: 0.25rem;
   animation: blink 1.5s infinite;
   overflow: visible;
+  z-index: 5;
 }
 .crescent-moon::before {
   content: '';
@@ -586,6 +589,23 @@
 }
 
 @media (max-width: 480px) {
+  .logo {
+    top: calc(var(--spacing-unit) * 0.75);
+    left: calc(var(--spacing-unit) * 0.75);
+    padding: 0.25rem;
+  }
+  
+  .crescent-moon {
+    margin-left: 0.15rem;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .crescent-moon::before {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+}
   .footer {
     position: fixed;
     bottom: 0;
