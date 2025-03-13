@@ -835,10 +835,11 @@
     </style>
  <script type="module">
   // Import the necessary Firebase modules
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, 
+           MicrosoftAuthProvider, OAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-  // Your existing Firebase configuration
+  // Your Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDviZTEqaTKVu9UWdrqeaAbXnao9ai0elM",
     authDomain: "theadlproject.firebaseapp.com",
@@ -852,48 +853,45 @@
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
 
-  // Select all Google Sign-In buttons
-  const googleSignInButtons = document.querySelectorAll('.social-btn:contains("Google")');
+  // Create provider instances
+  const googleProvider = new GoogleAuthProvider();
+  const microsoftProvider = new MicrosoftAuthProvider();
+  const appleProvider = new OAuthProvider('apple.com');
 
-  // Add click event to each Google Sign-In button
-  googleSignInButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          // This gives you a Google Access Token
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          
-          // The signed-in user info
-          const user = result.user;
-          
-          // Redirect to dashboard or home page after successful sign-in
-          window.location.href = 'dashboard.html';
-        })
-        .catch((error) => {
-          // Handle Errors here
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used
-          const email = error.customData.email;
-          // The AuthCredential type that was used
-          const credential = GoogleAuthProvider.credentialFromError(error);
-          
-          // Show error to user
-          alert('Google Sign-In Failed: ' + errorMessage);
-        });
-    });
+  // Function to handle social login
+  function handleSocialLogin(provider) {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // Successful login
+        const user = result.user;
+        console.log('Logged in user:', user);
+        window.location.href = 'dashboard.html';
+      })
+      .catch((error) => {
+        // Handle Errors here
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error('Login Error:', errorMessage);
+        alert('Login Failed: ' + errorMessage);
+      });
+  }
+
+  // Add event listeners to specific social login buttons
+  document.querySelector('.social-btn:nth-child(1)').addEventListener('click', () => handleSocialLogin(googleProvider));
+  document.querySelector('.social-btn:nth-child(2)').addEventListener('click', () => handleSocialLogin(microsoftProvider));
+  document.querySelector('.social-btn:nth-child(3)').addEventListener('click', () => handleSocialLogin(appleProvider));
+
+  // Phone authentication would require additional setup
+  document.querySelector('.social-btn:nth-child(4)').addEventListener('click', () => {
+    alert('Phone authentication is not yet implemented');
   });
 
-  // Optional: Handle state changes
+  // Optional: Handle auth state changes
   auth.onAuthStateChanged((user) => {
     if (user) {
-      // User is signed in
       console.log('User is signed in:', user);
     } else {
-      // User is signed out
       console.log('No user is signed in');
     }
   });
