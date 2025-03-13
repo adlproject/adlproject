@@ -245,31 +245,25 @@
       }
 
       .signup-link a::after {
-        content: "";
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: 0;
-        left: 50%;
-        background: var(--primary-gradient);
-        transition: all 0.3s ease;
-        transform: translateX(-50%);
-      }
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: 18px;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
 
-      .signup-link a:hover {
-        text-decoration: none;
-        opacity: 1;
-        color: var(--primary-color);
-      }
+.signup-link a:hover {
+  text-decoration: none;
+  opacity: 1;
+  color: var(--primary-color);
+}
 
-      .signup-link a:hover::after {
-        width: 80%;
-      }
-
-      .signup-link a:focus {
-        outline: 2px solid var(--primary-color);
-        outline-offset: 2px;
-      }
+.signup-link a:hover::after {
+  width: 100%;
+}
 
       /* OR divider */
       .divider {
@@ -374,42 +368,37 @@
       }
 
       .footer a {
-        color: white;
-        text-decoration: none;
-        margin: 0 0.75rem;
-        padding: 0.25rem;
-        transition: all 0.2s ease;
-        opacity: 1;
-        position: relative;
-        -webkit-tap-highlight-color: transparent;
-      }
+  color: white;
+  text-decoration: none;
+  margin: 0 0.75rem;
+  padding: 0.25rem;
+  transition: all 0.2s ease;
+  opacity: 1;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;  /* Add this */
+}
 
-      .footer a::after {
-        content: "";
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: 0;
-        left: 50%;
-        background: var(--primary-gradient);
-        transition: all 0.3s ease;
-        transform: translateX(-50%);
-      }
+.footer a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: 22px;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
 
-      .footer a:hover {
-        text-decoration: none;
-        opacity: 1;
-        color: var(--primary-color);
-      }
+.footer a:hover {
+  text-decoration: none;
+  opacity: 1;
+  color: var(--primary-color);
+}
 
-      .footer a:hover::after {
-        width: 80%;
-      }
-
-      .footer a:focus {
-        outline: 2px solid var(--primary-color);
-        outline-offset: 2px;
-      }
+.footer a:hover::after {
+  width: 100%;
+}
 
       /* Ensure proper touch targets for mobile */
       .social-btn,
@@ -847,9 +836,9 @@
   </head>
   <body>
     <div class="login-container">
-      <div class="logo">
+      <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">
         <span class="logo-text">ADL</span><span class="crescent-moon"></span>
-      </div>
+      </a>
 
       <h1>Welcome Back</h1>
 
@@ -963,8 +952,11 @@
       </div>
 
       <div class="footer">
-        <a href="#">Terms of Use</a>
-        <a href="#">Privacy Policy</a>
+        <div class="footer-links">
+          <a href="#">Terms of Use</a>
+          <span class="footer-divider">|</span>
+          <a href="#">Privacy Policy</a>
+        </div>
       </div>
     </div>
   </body>
