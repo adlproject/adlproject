@@ -306,28 +306,23 @@
       box-shadow: 0 0 5px rgba(167, 139, 250, 0.5);
     }
     
-    /* Three lines of the hamburger menu */
-    .plus-minus-icon span:nth-child(1) {
-      transform: translateY(-7px);
-    }
-    
-    .plus-minus-icon span:nth-child(3) {
-      transform: translateY(7px);
-    }
-    
-    /* Animation for hamburger to X transition when sidebar is open */
-    .sidebar:not(.closed) ~ button.sidebar-toggle .plus-minus-icon span:nth-child(1) {
-      transform: rotate(45deg);
-    }
-    
-    .sidebar:not(.closed) ~ button.sidebar-toggle .plus-minus-icon span:nth-child(2) {
-      opacity: 0;
-      transform: scale(0);
-    }
-    
-    .sidebar:not(.closed) ~ button.sidebar-toggle .plus-minus-icon span:nth-child(3) {
-      transform: rotate(-45deg);
-    }
+    /* Two lines of the hamburger menu */
+.plus-minus-icon span:nth-child(1) {
+  transform: translateY(-5px);
+}
+
+.plus-minus-icon span:nth-child(2) {
+  transform: translateY(5px);
+}
+
+/* Animation for hamburger to X transition when sidebar is open */
+.sidebar:not(.closed) ~ button.sidebar-toggle .plus-minus-icon span:nth-child(1) {
+  transform: rotate(45deg) translateY(0);
+}
+
+.sidebar:not(.closed) ~ button.sidebar-toggle .plus-minus-icon span:nth-child(2) {
+  transform: rotate(-45deg) translateY(0);
+}
     
     /* Hover effect */
     .sidebar-toggle:hover .plus-minus-icon span {
@@ -538,6 +533,96 @@
     .chat-input-container button.voice-btn:active {
       transform: scale(0.95);
     }
+    /* ADD this section to your existing style tag */
+.floating-chat-box {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 800px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Chat input container styles - these already exist but we'll modify them for the floating box */
+.floating-chat-box .chat-input-container {
+  display: flex;
+  align-items: center;
+  background-color: rgba(31, 31, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 9999px;
+  padding: 0.75rem 1.25rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
+/* Input field for chat - adjusted to match mockup */
+.floating-chat-box .chat-input-container input[type="text"] {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  padding: 0.5rem 0;
+}
+
+.floating-chat-box .chat-input-container input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Buttons in the chat input - adjusting size to match mockup */
+.floating-chat-box .chat-input-container button.add-btn,
+.floating-chat-box .chat-input-container button.voice-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: var(--primary-light);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.floating-chat-box .chat-input-container button.add-btn {
+  margin-right: 0.75rem;
+}
+
+.floating-chat-box .chat-input-container button.voice-btn {
+  margin-left: 0.75rem;
+}
+
+/* Hover/active states */
+.floating-chat-box .chat-input-container button:hover {
+  color: var(--primary-color);
+}
+
+.floating-chat-box .chat-input-container button:active {
+  transform: scale(0.95);
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .floating-chat-box {
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-chat-box {
+    width: 100%;
+    bottom: 10px;
+  }
+  
+  .floating-chat-box .chat-input-container {
+    padding: 0.6rem 1rem;
+  }
+}
   </style>
 </head>
 <body>
@@ -550,7 +635,6 @@
   <!-- Toggle button -->
   <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
     <div class="plus-minus-icon">
-      <span></span>
       <span></span>
       <span></span>
     </div>
@@ -633,67 +717,77 @@
       loadProfilePicture();
 
       // Chat initiation handling
-      const chatInitiateButton = document.getElementById('chatInitiate');
-      chatInitiateButton.addEventListener('click', function() {
-        // Load chat interface in the content area
-        contentArea.innerHTML = `
-          <div class="chat-container" id="chatContainer">
-            <div id="chatMessages"></div>
-            <div class="chat-input-container">
-              <button class="add-btn" aria-label="Add options">+</button>
-              <input type="text" id="chatInput" placeholder="Ask anything..." />
-              <button class="voice-btn" aria-label="Voice input">
-                <svg width="20" height="20" viewBox="0 0 448 512" fill="currentColor">
-                  <path d="M400 224c0 79.4-64.6 144-144 144s-144-64.6-144-144V96c0-53 
-                           43-96 96-96s96 43 96 96v128c0 17.7 14.3 32 32 32s32-14.3 
-                           32-32V96C368 43 325 0 272 0S176 43 176 96v128c0 52.9 43 
-                           96 96 96s96-43.1 96-96c0-17.7 14.3-32 32-32s32 14.3 
-                           32 32zM80 224c0-8.8-7.2-16-16-16s-16 7.2-16 16c0 
-                           88.2 67.8 161.4 153.6 175.3V448H160c-17.7 0-32 
-                           14.3-32 32s14.3 32 32 32h128c17.7 0 32-14.3 
-                           32-32s-14.3-32-32-32H246.4v-48.7C332.2 385.4 
-                           400 312.2 400 224c0-8.8-7.2-16-16-16s-16 
-                           7.2-16 16c0 79.4-64.6 144-144 144s-144-64.6-144-144z">
-                  </path>
-                </svg>
-              </button>
-            </div>
-          </div>
-        `;
-
-        // Grab references in the newly inserted HTML
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-        
-        // Send message when user presses Enter
-        chatInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            sendMessage();
-          }
-        });
-        
-        // Helper to send message
-        function sendMessage() {
-          const message = chatInput.value.trim();
-          if (message) {
-            // Display the message in the chat interface
-            const messageDiv = document.createElement('div');
-            messageDiv.textContent = message;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            // Append message to sidebar chat history
-            const sidebarMenu = document.querySelector('.sidebar-menu');
-            const chatHistoryItem = document.createElement('a');
-            chatHistoryItem.href = "#";
-            chatHistoryItem.classList.add('sidebar-menu-item');
-            chatHistoryItem.textContent = message;
-            sidebarMenu.appendChild(chatHistoryItem);
-            
-            chatInput.value = '';
-          }
-        }
-      });
+      // Chat initiation handling
+const chatInitiateButton = document.getElementById('chatInitiate');
+chatInitiateButton.addEventListener('click', function() {
+  // Create chat box if it doesn't exist, otherwise toggle visibility
+  let chatBox = document.getElementById('floatingChatBox');
+  
+  if (chatBox) {
+    // Toggle visibility if chat box already exists
+    const isVisible = chatBox.style.display !== 'none';
+    chatBox.style.display = isVisible ? 'none' : 'flex';
+    return;
+  }
+  
+  // Create floating chat box
+  chatBox = document.createElement('div');
+  chatBox.id = 'floatingChatBox';
+  chatBox.className = 'floating-chat-box';
+  chatBox.innerHTML = `
+    <div class="chat-input-container">
+      <button class="add-btn" aria-label="Add options">+</button>
+      <input type="text" id="chatInput" placeholder="Ask anything..." />
+      <button class="voice-btn" aria-label="Voice input">
+        <svg width="20" height="20" viewBox="0 0 448 512" fill="currentColor">
+          <path d="M400 224c0 79.4-64.6 144-144 144s-144-64.6-144-144V96c0-53 
+                 43-96 96-96s96 43 96 96v128c0 17.7 14.3 32 32 32s32-14.3 
+                 32-32V96C368 43 325 0 272 0S176 43 176 96v128c0 52.9 43 
+                 96 96 96s96-43.1 96-96c0-17.7 14.3-32 32-32s32 14.3 
+                 32 32zM80 224c0-8.8-7.2-16-16-16s-16 7.2-16 16c0 
+                 88.2 67.8 161.4 153.6 175.3V448H160c-17.7 0-32 
+                 14.3-32 32s14.3 32 32 32h128c17.7 0 32-14.3 
+                 32-32s-14.3-32-32-32H246.4v-48.7C332.2 385.4 
+                 400 312.2 400 224c0-8.8-7.2-16-16-16s-16 
+                 7.2-16 16c0 79.4-64.6 144-144 144s-144-64.6-144-144z">
+          </path>
+        </svg>
+      </button>
+    </div>
+  `;
+  
+  document.body.appendChild(chatBox);
+  
+  // Grab reference to the input
+  const chatInput = document.getElementById('chatInput');
+  
+  // Send message when user presses Enter
+  chatInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  });
+  
+  // Helper to send message
+  function sendMessage() {
+    const message = chatInput.value.trim();
+    if (message) {
+      // Create or update chat history in sidebar
+      const sidebarMenu = document.querySelector('.sidebar-menu');
+      const chatHistoryItem = document.createElement('a');
+      chatHistoryItem.href = "#";
+      chatHistoryItem.classList.add('sidebar-menu-item');
+      chatHistoryItem.textContent = message;
+      sidebarMenu.appendChild(chatHistoryItem);
+      
+      // Clear input
+      chatInput.value = '';
+      
+      // In a real app, you would send this message to your API
+      console.log('Message sent:', message);
+    }
+  }
+});
     });
   </script>
 </body>
