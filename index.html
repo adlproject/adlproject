@@ -188,10 +188,11 @@
     .crescent-moon {
   position: relative;
   display: inline-block;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2rem;
   margin-left: 0.25rem;
   animation: blink 1.5s infinite;
+  overflow: visible;
 }
 
 .crescent-moon::before {
@@ -202,8 +203,8 @@
   border-radius: 50%;
   box-shadow: inset 0.2rem 0.2rem 0 0 var(--primary-color);
   transform: rotate(-85deg);
-  top: 0.1rem;
-  left: 0.1rem;
+  top: 0.35rem;
+  left: 0.35rem;
   filter: drop-shadow(0 0 6px rgba(167, 139, 250, 0.8));
 }
     
@@ -657,8 +658,7 @@
   <div class="main-content" id="mainContent">
     <div class="page-container">
       <div class="left-section">
-        <div class="logo"><span class="logo-text">ADL</span><span class="crescent-moon"></span></div>
-        
+        <a href="index.html" class="logo" style="text-decoration: none; color: inherit;"><span class="logo-text">ADL</span><span class="crescent-moon"></span></a>
         <div class="content-container" style="display: flex; align-items: center; height: 100%;">
           <div class="content-wrapper" style="margin: auto 0;">
             <div class="typing-container">
