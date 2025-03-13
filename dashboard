@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ADL - Islamic Knowledge Platform | Dashboard</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    }
+
+    :root {
+      /* Define global variables for consistent values */
+      --primary-color: #a78bfa;
+      --primary-light: #c4b5fd;
+      --primary-gradient: linear-gradient(135deg, #a78bfa, #8b5cf6);
+      --dark-bg: #0f0f1a;
+      --darker-bg: #000;
+      --text-color: #fff;
+      --sidebar-bg: rgba(59, 59, 79, 0.5);
+      --card-bg: rgba(59, 59, 79, 0.8);
+      --input-bg: rgba(59, 59, 79, 0.8);
+      --input-border: rgba(76, 76, 99, 0.3);
+      --button-primary: #4c53f0;
+      --button-secondary: rgba(59, 59, 79, 0.8);
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-color);
+      display: flex;
+      position: relative;
+    }
+
+    /* Background pattern */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23a78bfa' fill-opacity='0.12'%3E%3Ctext x='20' y='35' font-family='Arial' font-size='24' text-anchor='middle'%3Eا%3C/text%3E%3Ctext x='50' y='35' font-family='Arial' font-size='24' text-anchor='middle'%3Eل%3C/text%3E%3Ctext x='20' y='75' font-family='Arial' font-size='24' text-anchor='middle'%3Eم%3C/text%3E%3Ctext x='50' y='75' font-family='Arial' font-size='24' text-anchor='middle'%3Eن%3C/text%3E%3C/g%3E%3C/svg%3E");
+      background-size: 100px 100px;
+      opacity: 0.5;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Dashboard Layout */
+    .dashboard-container {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      grid-template-rows: 100vh;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background-color: var(--sidebar-bg);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 1rem;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      overflow-y: auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .crescent-moon {
+      position: relative;
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-left: 0.25rem;
+      animation: blink 1.5s infinite;
+    }
+
+    .crescent-moon::before {
+      content: "";
+      position: absolute;
+      width: 1.3rem;
+      height: 1.3rem;
+      border-radius: 50%;
+      box-shadow: inset 0.2rem 0.2rem 0 0 var(--primary-color);
+      transform: rotate(-85deg);
+      top: 0.1rem;
+      left: 0.1rem;
+      filter: drop-shadow(0 0 4px rgba(167, 139, 250, 0.8));
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Sidebar Navigation */
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex-grow: 1;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      color: var(--text-color);
+      text-decoration: none;
+      border-radius: 0.375rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: var(--primary-color);
+      color: var(--darker-bg);
+    }
+
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .nav-item:hover::before {
+      left: 100%;
+    }
+
+    .nav-icon {
+      margin-right: 0.75rem;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background-color: rgba(0,0,0,0.2);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .profile-pic {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background-color: var(--input-bg);
+      border-radius: 0.375rem;
+      padding: 0.5rem 1rem;
+      flex-grow: 1;
+      max-width: 400px;
+    }
+
+    .search-input {
+      background: transparent;
+      border: none;
+      color: var(--text-color);
+      width: 100%;
+      margin-left: 0.5rem;
+    }
+
+    .search-input:focus {
+      outline: none;
+    }
+
+    /* Dashboard Content Grid */
+    .dashboard-content {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      overflow: hidden;
+    }
+
+    /* Left Section - Main Analytics */
+    .main-analytics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto 1fr;
+      gap: 1.5rem;
+      overflow: hidden;
+    }
+
+    .quick-stats {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .dashboard-card {
+      background-color: var(--card-bg);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard-card:hover {
+      transform: scale(1.03);
+    }
+
+    .dashboard-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .dashboard-card:hover::before {
+      left: 100%;
+    }
+
+    .card-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background-color: var(--primary-color);
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--darker-bg);
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1rem;
+      opacity: 0.7;
+    }
+
+    .card-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    /* Learning Progress Section */
+    .learning-progress {
+      grid-column: 1 / 3;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      overflow: hidden;
+    }
+
+    .progress-card {
+      background-color: var(--card-bg);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .progress-details {
+      flex-grow: 1;
+    }
+
+    .progress-bar {
+      height: 0.5rem;
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 0.25rem;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--primary-color);
+    }
+
+    /* Right Section - Additional Information */
+    .right-sidebar {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 1.5rem;
+    }
+
+    .upcoming-events {
+      background-color: var(--card-bg);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .event-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background-color: rgba(255,255,255,0.05);
+      border-radius: 0.375rem;
+    }
+
+    .event-date {
+      background-color: var(--primary-color);
+      color: var(--darker-bg);
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      min-width: 3rem;
+      text-align: center;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 1024px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        height: 100%;
+        z-index: 1000;
+        transition: left 0.3s ease;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .dashboard-content {
+        grid-template-columns: 1fr;
+      }
+
+      .main-analytics {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Accessibility Styles */
+    :focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <a href="index.html" class="logo">
+        ADL<span class="crescent-moon"></span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active">
+          <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Dashboard
+        </a>
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          Courses
+        </a>
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          Community
+        </a>
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          Resources
+        </a>
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Progress
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Dashboard Header -->
+      <header class="dashboard-header">
+        <div class="search-bar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" placeholder="Search courses, resources..." class="search-input">
+        </div>
+
+        <div class="user-profile">
+          <div class="profile-pic">AA</div>
+          <div class="user-details">
+            <div>Abdullah Alawi</div>
+            <div style="font-size: 0.8rem; opacity: 0.7;">Student</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        <!-- Main Analytics Section -->
+        <div class="main-analytics">
+          <!-- Quick Stats -->
+          <div class="quick-stats">
+            <div class="dashboard-card">
+              <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <div class="card-title">Active Courses</div>
+              <div class="card-value">3</div>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="card-title">Completed Courses</div>
+              <div class="card-value">7</div>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <div class="card-title">Community Connects</div>
+              <div class="card-value">42</div>
+            </div>
+          </div>
+
+          <!-- Learning Progress Section -->
+          <div class="learning-progress">
+            <h2 style="margin-bottom: 1rem;">Your Learning Progress</h2>
+            
+            <div class="progress-card">
+              <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <div class="progress-details">
+                <h3>Quran Tafsir: Surah Al-Baqarah</h3>
+                <div class="progress-bar">
+                  <div class="progress-bar-fill" style="width: 65%;"></div>
+                </div>
+              </div>
+              <div class="card-value">65%</div>
+            </div>
+
+            <div class="progress-card">
+              <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <div class="progress-details">
+                <h3>Islamic History: The Golden Age</h3>
+                <div class="progress-bar">
+                  <div class="progress-bar-fill" style="width: 45%;"></div>
+                </div>
+              </div>
+              <div class="card-value">45%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="right-sidebar">
+          <div class="upcoming-events">
+            <h2>Upcoming Events</h2>
+            <div class="event-item">
+              <div class="event-date">
+                <div>15</div>
+                <div style="font-size: 0.7rem;">Mar</div>
+              </div>
+              <div class="event-details">
+                <h3>Tafsir Night Class</h3>
+                <p style="font-size: 0.8rem; opacity: 0.7;">Online Lecture on Surah Al-Kahf</p>
+              </div>
+            </div>
+            <div class="event-item">
+              <div class="event-date">
+                <div>22</div>
+                <div style="font-size: 0.7rem;">Mar</div>
+              </div>
+              <div class="event-details">
+                <h3>Community Halaqa</h3>
+                <p style="font-size: 0.8rem; opacity: 0.7;">Weekly Study Circle</p>
+              </div>
+            </div>
+            <div class="event-item">
+              <div class="event-date">
+                <div>30</div>
+                <div style="font-size: 0.7rem;">Mar</div>
+              </div>
+              <div class="event-details">
+                <h3>Ramadan Preparation Workshop</h3>
+                <p style="font-size: 0.8rem; opacity: 0.7;">Spiritual Readiness Seminar</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Toggle mobile sidebar
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('open');
+    }
+
+    // Search functionality (placeholder)
+    const searchInput = document.querySelector('.search-input');
+    searchInput.addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      console.log('Searching for:', searchTerm);
+      // Implement actual search logic here
+    });
+  </script>
+</body>
+</html>
